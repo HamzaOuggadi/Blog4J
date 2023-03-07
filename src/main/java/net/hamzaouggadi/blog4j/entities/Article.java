@@ -18,7 +18,7 @@ public class Article {
     private String content;
     @ElementCollection
     private List<String> images;
-    @ElementCollection
+    @OneToMany
     private List<ArticleCategory> category;
     @ManyToOne
     private BlogUser writer;
