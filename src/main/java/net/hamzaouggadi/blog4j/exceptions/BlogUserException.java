@@ -23,6 +23,14 @@ public class BlogUserException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
+    public BlogUserException(String message, String messageFront, ApiStatusCode code, HttpStatus httpStatus) {
+        super();
+        this.message = message;
+        this.messageFront = messageFront;
+        this.code = code;
+        this.httpStatus = httpStatus;
+    }
+
     public BlogUserException(String message, HttpStatus httpStatus) {
         super();
         this.message = message;
