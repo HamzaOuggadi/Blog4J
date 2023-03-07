@@ -18,11 +18,11 @@ public class Article {
     private String content;
     @ElementCollection
     private List<String> images;
-    @OneToMany
+    @ElementCollection
     private List<ArticleCategory> category;
     @ManyToOne
     private BlogUser writer;
     private Date publishDate;
-    @OneToMany
+    @OneToMany(mappedBy = "article")
     private List<Comment> comments;
 }

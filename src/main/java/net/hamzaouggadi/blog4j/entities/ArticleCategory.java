@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Embeddable
 @Table(name = "category")
 @Data
 @AllArgsConstructor
