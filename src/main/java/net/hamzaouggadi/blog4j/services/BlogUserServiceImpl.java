@@ -39,7 +39,7 @@ public class BlogUserServiceImpl implements BlogUserService {
                     ApiStatusCode.API_USER_100,
                     HttpStatus.NOT_FOUND);
         }
-        return null;
+        return listUsersDTO;
     }
 
     @Override
