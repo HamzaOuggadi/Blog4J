@@ -24,6 +24,7 @@ public class BlogUserServiceImpl implements BlogUserService {
     private BlogUserRepository blogUserRepository;
     private BlogUserMapper blogUserMapper;
     private MessageSource messageSource;
+
     @Override
     public List<BlogUserDTO> listUsers() {
         List<BlogUser> listUsers = blogUserRepository.findAll();

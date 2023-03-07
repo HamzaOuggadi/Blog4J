@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 @Slf4j
-public class ControllerAdviser {
+public class ControllerAdvisor {
     @ExceptionHandler(BlogUserException.class)
     public ResponseEntity<GenericResponse> handleBlogUserException(BlogUserException e) {
         GenericResponse response = new GenericResponse();
