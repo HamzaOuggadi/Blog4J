@@ -18,6 +18,7 @@ public class BlogUser {
     private String email;
     private String password;
     private Date createdAt;
+    private boolean isRemoved;
     @OneToMany(mappedBy = "writer")
     private List<Article> articles;
     @OneToMany(mappedBy = "writer")

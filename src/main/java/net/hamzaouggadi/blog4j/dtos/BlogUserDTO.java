@@ -13,4 +13,5 @@ public class BlogUserDTO {
     private String password;
     private String email;
     private Date createdAt;
+    private boolean isDeleted;
 }
