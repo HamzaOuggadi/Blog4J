@@ -119,6 +119,14 @@ public class BlogUserServiceImpl implements BlogUserService {
                 messageSource.getMessage("user.not.found.front", new Object[]{}, Locale.getDefault()),
                 ApiStatusCode.API_USER_100,
                 HttpStatus.NOT_FOUND));
-        user.setRemoved(true);
+        try {
+            user.setRemoved(true);
+        } catch (Exception e) {
+            throw new BlogUserException(
+                    messageSource.getMessage("user.remove.failed", new Object[]{userId}, Locale.getDefault()),
+                    messageSource.getMessage("user.remove.failed.front", new Object[]{}, Locale.getDefault()),
+                    ApiStatusCode.API_USER_300,
+                    HttpStatus.CONFLICT);
+        }
     }
 }
