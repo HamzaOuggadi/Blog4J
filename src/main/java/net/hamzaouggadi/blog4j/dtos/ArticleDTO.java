@@ -16,6 +16,5 @@ public class ArticleDTO {
     private String content;
     private List<String> images;
     private List<ArticleCategory> articleCategories;
-    private Date publishDate;
     private BlogUser writer;
 }

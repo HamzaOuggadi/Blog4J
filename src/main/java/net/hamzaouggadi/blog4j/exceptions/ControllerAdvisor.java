@@ -1,6 +1,7 @@
 package net.hamzaouggadi.blog4j.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,30 @@ public class ControllerAdvisor {
     }
     @ExceptionHandler(ArticleException.class)
     public ResponseEntity<GenericResponse> handleArticleException(ArticleException e) {
+        GenericResponse response = new GenericResponse();
+        log.error(e.getMessage());
+        e.printStackTrace();
+        response.setDescription(e.getMessage());
+        response.setDescriptionFront(e.getMessageFront());
+        response.setError(true);
+        response.setStatusCode(e.getCode());
+        return ResponseEntity.status(e.getHttpStatus()).body(response);
+    }
+
+    @ExceptionHandler(CommentException.class)
+    public ResponseEntity<GenericResponse> handleCommentException(CommentException e) {
+        GenericResponse response = new GenericResponse();
+        log.error(e.getMessage());
+        e.printStackTrace();
+        response.setDescription(e.getMessage());
+        response.setDescriptionFront(e.getMessageFront());
+        response.setError(true);
+        response.setStatusCode(e.getCode());
+        return ResponseEntity.status(e.getHttpStatus()).body(response);
+    }
+
+    @ExceptionHandler(ArticleCategoryException.class)
+    public ResponseEntity<GenericResponse> handleArticleCategoryException(ArticleCategoryException e) {
         GenericResponse response = new GenericResponse();
         log.error(e.getMessage());
         e.printStackTrace();

@@ -10,5 +10,4 @@ import java.util.Date;
 @AllArgsConstructor
 public class CommentDTO {
     private String content;
-    private Date publishDate;
 }
