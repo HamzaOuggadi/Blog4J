@@ -19,4 +19,15 @@ public class ControllerAdvisor {
         response.setStatusCode(e.getCode());
         return ResponseEntity.status(e.getHttpStatus()).body(response);
     }
+    @ExceptionHandler(ArticleException.class)
+    public ResponseEntity<GenericResponse> handleArticleException(ArticleException e) {
+        GenericResponse response = new GenericResponse();
+        log.error(e.getMessage());
+        e.printStackTrace();
+        response.setDescription(e.getMessage());
+        response.setDescriptionFront(e.getMessageFront());
+        response.setError(true);
+        response.setStatusCode(e.getCode());
+        return ResponseEntity.status(e.getHttpStatus()).body(response);
+    }
 }
