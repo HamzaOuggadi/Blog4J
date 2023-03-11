@@ -8,6 +8,7 @@ public enum ApiStatusCode {
     API_ARTICLE_100,
     API_ARTICLE_200,
     API_ARTICLE_300,
+    API_ARTICLE_400,
     API_COMMENT_100,
     API_COMMENT_200,
     API_COMMENT_300

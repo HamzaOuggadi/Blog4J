@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 @Transactional
@@ -28,12 +26,14 @@ public class ArticleServiceImpl implements ArticleService {
     private MessageSource messageSource;
 
     @Override
-    public List<ArticleDTO> listArticle() {
+    public List<ArticleDTO> listArticles() {
         List<Article> articles = articleRepository.findAll();
         if (!CollectionUtils.isEmpty(articles)) {
             List<ArticleDTO> articleDTOS = new ArrayList<>();
             articles.stream().forEach(article -> {
-                articleDTOS.add(articleMapper.articleToArticleDTO(article));
+                if (!article.isRemoved()) {
+                    articleDTOS.add(articleMapper.articleToArticleDTO(article));
+                }
             });
             return articleDTOS;
         } else {
@@ -52,23 +52,42 @@ public class ArticleServiceImpl implements ArticleService {
                         messageSource.getMessage("article.not.found.front", new Object[]{}, Locale.getDefault()),
                         ApiStatusCode.API_ARTICLE_100,
                         HttpStatus.NOT_FOUND));
-        return articleMapper.articleToArticleDTO(article);
+        if (!article.isRemoved()) {
+            return articleMapper.articleToArticleDTO(article);
+        } else {
+            throw new ArticleException(messageSource.getMessage("article.not.found.id", new Object[]{articleId}, Locale.getDefault()),
+                    messageSource.getMessage("article.not.found.front", new Object[]{}, Locale.getDefault()),
+                    ApiStatusCode.API_ARTICLE_100,
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
     public List<ArticleDTO> searchArticleByKeyWord(String keyword) {
         List<Article> articles = articleRepository.findByTitleContainingIgnoreCase(keyword);
-        List<ArticleDTO> articleDTOS = new ArrayList<>();
-        articles.stream().forEach(article -> {
-            articleDTOS.add(articleMapper.articleToArticleDTO(article));
-        });
-        return articleDTOS;
+        if (!CollectionUtils.isEmpty(articles)) {
+            List<ArticleDTO> articleDTOS = new ArrayList<>();
+            articles.stream().forEach(article -> {
+                if (!article.isRemoved()) {
+                    articleDTOS.add(articleMapper.articleToArticleDTO(article));
+                }
+            });
+            return articleDTOS;
+        } else {
+            throw new ArticleException(
+                    messageSource.getMessage("article.not.found.keyword", new Object[]{keyword}, Locale.getDefault()),
+                    messageSource.getMessage("article.not.found.keyword", new Object[]{keyword}, Locale.getDefault()),
+                    ApiStatusCode.API_ARTICLE_100,
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
     public void addArticle(ArticleDTO articleDTO) {
         try {
             Article article = articleMapper.articleDTOToArticle(articleDTO);
+            article.setRemoved(false);
+            article.setPublishDate(new Date());
             articleRepository.save(article);
         } catch (Exception e) {
             throw new ArticleException(
@@ -81,6 +100,20 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(Long articleId) {
-
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new ArticleException(
+                messageSource.getMessage("article.not.found.id", new Object[]{articleId}, Locale.getDefault()),
+                messageSource.getMessage("article.not.found.front", new Object[]{}, Locale.getDefault()),
+                ApiStatusCode.API_ARTICLE_100,
+                HttpStatus.NOT_FOUND));
+        try {
+            if (!article.isRemoved()) {
+                article.setRemoved(true);
+            }
+        } catch (Exception e) {
+            throw new ArticleException(messageSource.getMessage("article.delete.failed", new Object[]{articleId}, Locale.getDefault()),
+                    messageSource.getMessage("article.delete.failed.front", new Object[]{}, Locale.getDefault()),
+                    ApiStatusCode.API_ARTICLE_300,
+                    HttpStatus.NOT_FOUND);
+        }
     }
 }
