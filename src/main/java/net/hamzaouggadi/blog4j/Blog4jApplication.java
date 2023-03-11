@@ -1,6 +1,10 @@
 package net.hamzaouggadi.blog4j;
 
+import jdk.jfr.Category;
+import net.hamzaouggadi.blog4j.entities.Article;
+import net.hamzaouggadi.blog4j.entities.ArticleCategory;
 import net.hamzaouggadi.blog4j.entities.BlogUser;
+import net.hamzaouggadi.blog4j.repositories.ArticleRepository;
 import net.hamzaouggadi.blog4j.repositories.BlogUserRepository;
 import net.hamzaouggadi.blog4j.services.BlogUserService;
 import org.springframework.boot.CommandLineRunner;
@@ -8,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Stream;
 
@@ -18,7 +23,8 @@ public class Blog4jApplication {
         SpringApplication.run(Blog4jApplication.class, args);
     }
     @Bean
-    CommandLineRunner start(BlogUserRepository blogUserRepository) {
+    CommandLineRunner start(BlogUserRepository blogUserRepository,
+                            ArticleRepository articleRepository) {
         return args -> {
             Stream.of("Hamza", "Asmae", "Jacky").forEach(usr -> {
                 BlogUser user = new BlogUser();
@@ -30,6 +36,22 @@ public class Blog4jApplication {
 
                 blogUserRepository.save(user);
             });
+
+            for (int i=0; i<5; i++) {
+                Stream.of("Title 1 : Lorem ipsum dolor sit amet",
+                        "Title 2 : Lorem ipsum dolor sit amet",
+                        "Title 3 : Lorem ipsum dolor sit amet").forEach(title -> {
+                    Article article = new Article();
+                    article.setTitle(title);
+                    article.setContent("Mauris a nisl vel nibh efficitur ullamcorper. Phasellus in urna felis. Aenean semper nulla vel ipsum dapibus, quis commodo nisl porta. Suspendisse consequat, elit in molestie ullamcorper, magna sem interdum massa, et varius diam turpis ut purus. Cras malesuada eu quam non vehicula. Vivamus vehicula lectus id nisl dictum rutrum. Pellentesque quam nisl, rhoncus nec augue ut, bibendum venenatis ligula.");
+                    article.setCategory(new ArrayList<>());
+                    article.setPublishDate(new Date());
+                    article.setImages(new ArrayList<>());
+                    article.setComments(new ArrayList<>());
+                    article.setWriter(blogUserRepository.findById(1L).orElseThrow());
+                    articleRepository.save(article);
+                });
+            }
         };
     }
 }

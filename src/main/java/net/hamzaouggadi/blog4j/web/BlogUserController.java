@@ -1,7 +1,6 @@
 package net.hamzaouggadi.blog4j.web;
 
 import lombok.AllArgsConstructor;
-import lombok.Generated;
 import net.hamzaouggadi.blog4j.dtos.BlogUserDTO;
 import net.hamzaouggadi.blog4j.enums.ApiStatusCode;
 import net.hamzaouggadi.blog4j.exceptions.GenericResponse;
