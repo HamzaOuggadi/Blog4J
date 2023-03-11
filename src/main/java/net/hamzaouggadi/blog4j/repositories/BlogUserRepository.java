@@ -5,5 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BlogUserRepository extends JpaRepository<BlogUser, Long> {
     BlogUser findByUsername(String username);
+    BlogUser findByUsernameLikeIgnoreCase(String username);
     BlogUser findByEmail(String email);
+
+    BlogUser findByEmailLikeIgnoreCase(String email);
 }

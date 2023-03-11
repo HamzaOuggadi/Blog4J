@@ -1,6 +1,7 @@
 package net.hamzaouggadi.blog4j.services;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.hamzaouggadi.blog4j.dtos.BlogUserDTO;
 import net.hamzaouggadi.blog4j.entities.BlogUser;
 import net.hamzaouggadi.blog4j.enums.ApiStatusCode;
@@ -18,6 +19,7 @@ import java.util.*;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class BlogUserServiceImpl implements BlogUserService {
     private BlogUserRepository blogUserRepository;
     private BlogUserMapper blogUserMapper;
@@ -31,12 +33,6 @@ public class BlogUserServiceImpl implements BlogUserService {
             listUsers.stream().forEach(user -> {
                 if (!user.isRemoved()) {
                     listUsersDTO.add(blogUserMapper.blogUserToBlogUserDTO(user));
-                } else {
-                    throw new BlogUserException(
-                            messageSource.getMessage("user.not.found.front", new Object[]{}, Locale.getDefault()),
-                            messageSource.getMessage("user.not.found.front", new Object[]{}, Locale.getDefault()),
-                            ApiStatusCode.API_USER_100,
-                            HttpStatus.NOT_FOUND);
                 }
             });
         } else {
@@ -70,9 +66,17 @@ public class BlogUserServiceImpl implements BlogUserService {
 
     @Override
     public BlogUserDTO getUserByUsername(String username) {
-        BlogUser userByUsername = blogUserRepository.findByUsername(username);
-        if (userByUsername != null || !userByUsername.isRemoved()) {
-            return blogUserMapper.blogUserToBlogUserDTO(userByUsername);
+        BlogUser userByUsername = blogUserRepository.findByUsernameLikeIgnoreCase(username);
+        if (userByUsername != null) {
+            if (!userByUsername.isRemoved()) {
+                return blogUserMapper.blogUserToBlogUserDTO(userByUsername);
+            } else {
+                throw new BlogUserException(
+                        messageSource.getMessage("user.not.found.username", new Object[]{username}, Locale.getDefault()),
+                        messageSource.getMessage("user.not.found.front", new Object[]{}, Locale.getDefault()),
+                        ApiStatusCode.API_USER_100,
+                        HttpStatus.NOT_FOUND);
+            }
         } else {
             throw new BlogUserException(
                     messageSource.getMessage("user.not.found.username", new Object[]{username}, Locale.getDefault()),
@@ -84,7 +88,7 @@ public class BlogUserServiceImpl implements BlogUserService {
 
     @Override
     public BlogUserDTO getUserByEmail(String email) {
-        BlogUser userByEmail = blogUserRepository.findByEmail(email);
+        BlogUser userByEmail = blogUserRepository.findByEmailLikeIgnoreCase(email);
         if (userByEmail != null || !userByEmail.isRemoved()) {
             return blogUserMapper.blogUserToBlogUserDTO(userByEmail);
         } else {
