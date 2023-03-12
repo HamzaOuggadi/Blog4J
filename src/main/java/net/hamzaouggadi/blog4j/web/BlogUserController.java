@@ -17,8 +17,8 @@ import java.util.Locale;
 @AllArgsConstructor
 @RequestMapping("/users")
 public class BlogUserController {
-    BlogUserService blogUserService;
-    MessageSource messageSource;
+    private BlogUserService blogUserService;
+    private MessageSource messageSource;
     @GetMapping
     public ResponseEntity<List<BlogUserDTO>> listUsers() {
         List<BlogUserDTO> listUsers = blogUserService.listUsers();

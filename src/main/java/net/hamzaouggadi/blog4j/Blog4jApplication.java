@@ -4,8 +4,10 @@ import jdk.jfr.Category;
 import net.hamzaouggadi.blog4j.entities.Article;
 import net.hamzaouggadi.blog4j.entities.ArticleCategory;
 import net.hamzaouggadi.blog4j.entities.BlogUser;
+import net.hamzaouggadi.blog4j.entities.Comment;
 import net.hamzaouggadi.blog4j.repositories.ArticleRepository;
 import net.hamzaouggadi.blog4j.repositories.BlogUserRepository;
+import net.hamzaouggadi.blog4j.repositories.CommentRepository;
 import net.hamzaouggadi.blog4j.services.BlogUserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +26,8 @@ public class Blog4jApplication {
     }
     @Bean
     CommandLineRunner start(BlogUserRepository blogUserRepository,
-                            ArticleRepository articleRepository) {
+                            ArticleRepository articleRepository,
+                            CommentRepository commentRepository) {
         return args -> {
             Stream.of("Hamza", "Asmae", "Jacky").forEach(usr -> {
                 BlogUser user = new BlogUser();
@@ -50,6 +53,19 @@ public class Blog4jApplication {
                     article.setComments(new ArrayList<>());
                     article.setWriter(blogUserRepository.findById(1L).orElseThrow());
                     articleRepository.save(article);
+                });
+            }
+
+            for (int i=0; i<5; i++) {
+                Stream.of("Commentaire 1", "Commentaire 2", "Commentaire 3").forEach(cmnt -> {
+                    Comment comment = new Comment();
+                    comment.setContent(cmnt);
+                    comment.setLikes((int) (Math.random() * 100));
+                    comment.setPublishDate(new Date());
+                    comment.setWriter(blogUserRepository.findById(1L).orElseThrow());
+                    comment.setArticle(articleRepository.findById(1L).orElseThrow());
+                    comment.setRemoved(false);
+                    commentRepository.save(comment);
                 });
             }
         };

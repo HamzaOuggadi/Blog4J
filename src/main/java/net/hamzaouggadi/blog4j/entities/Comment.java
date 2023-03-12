@@ -17,6 +17,7 @@ public class Comment {
     private String content;
     private Date publishDate;
     private int likes;
+    private boolean isRemoved;
     @ManyToOne
     private Article article;
     @ManyToOne
