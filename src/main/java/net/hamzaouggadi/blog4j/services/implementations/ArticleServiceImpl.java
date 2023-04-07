@@ -1,4 +1,4 @@
-package net.hamzaouggadi.blog4j.services;
+package net.hamzaouggadi.blog4j.services.implementations;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,7 @@ import net.hamzaouggadi.blog4j.enums.ApiStatusCode;
 import net.hamzaouggadi.blog4j.exceptions.ArticleException;
 import net.hamzaouggadi.blog4j.mappers.ArticleMapper;
 import net.hamzaouggadi.blog4j.repositories.ArticleRepository;
+import net.hamzaouggadi.blog4j.services.ArticleService;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

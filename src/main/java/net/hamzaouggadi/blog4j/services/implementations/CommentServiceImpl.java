@@ -1,4 +1,4 @@
-package net.hamzaouggadi.blog4j.services;
+package net.hamzaouggadi.blog4j.services.implementations;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,7 @@ import net.hamzaouggadi.blog4j.dtos.CommentDTO;
 import net.hamzaouggadi.blog4j.entities.Comment;
 import net.hamzaouggadi.blog4j.mappers.CommentMapper;
 import net.hamzaouggadi.blog4j.repositories.CommentRepository;
+import net.hamzaouggadi.blog4j.services.CommentService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

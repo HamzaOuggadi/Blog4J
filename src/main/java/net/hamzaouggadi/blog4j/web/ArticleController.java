@@ -24,13 +24,13 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.listArticles());
     }
 
-    @GetMapping(params = "articleId")
-    public ResponseEntity<ArticleDTO> getArticle(@RequestParam Long articleId) {
+    @GetMapping("/articleById/{articleId}")
+    public ResponseEntity<ArticleDTO> getArticle(@PathVariable Long articleId) {
         return ResponseEntity.ok(articleService.getArticle(articleId));
     }
 
-    @GetMapping(params = "keyword")
-    public ResponseEntity<List<ArticleDTO>> searchArticles(@RequestParam String keyword) {
+    @GetMapping("/byKeyword/{keyword}")
+    public ResponseEntity<List<ArticleDTO>> searchArticles(@PathVariable String keyword) {
         return ResponseEntity.ok(articleService.searchArticleByKeyWord(keyword));
     }
 
@@ -45,8 +45,8 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/removeArticle")
-    public ResponseEntity<GenericResponse> removeArticle(@RequestParam Long articleId) {
+    @DeleteMapping("/removeArticleById/{articleId}")
+    public ResponseEntity<GenericResponse> removeArticle(@PathVariable Long articleId) {
         articleService.deleteArticle(articleId);
         GenericResponse response = new GenericResponse();
         response.setDescription(messageSource.getMessage("article.delete.success", new Object[]{articleId}, Locale.getDefault()));
