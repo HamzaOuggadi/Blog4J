@@ -17,27 +17,29 @@ import java.util.Locale;
 @AllArgsConstructor
 @RequestMapping("/users")
 public class BlogUserController {
-    private BlogUserService blogUserService;
-    private MessageSource messageSource;
+
+    private final BlogUserService blogUserService;
+    private final MessageSource messageSource;
+
     @GetMapping
     public ResponseEntity<List<BlogUserDTO>> listUsers() {
         List<BlogUserDTO> listUsers = blogUserService.listUsers();
         return ResponseEntity.ok(listUsers);
     }
-    @GetMapping("/{userId}")
+    @GetMapping("/userById/{userId}")
     public ResponseEntity<BlogUserDTO> getUserById(@PathVariable Long userId) {
         BlogUserDTO user = blogUserService.getUser(userId);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping(params = "username")
-    public ResponseEntity<BlogUserDTO> getUserByUsername(@RequestParam(name = "username") String username) {
+    @GetMapping("/userByUsername/{username}")
+    public ResponseEntity<BlogUserDTO> getUserByUsername(@PathVariable String username) {
         BlogUserDTO user = blogUserService.getUserByUsername(username);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping(params = "email")
-    public ResponseEntity<BlogUserDTO> getUserByEmail(@RequestParam String email) {
+    @GetMapping("/userByEmail/{email}")
+    public ResponseEntity<BlogUserDTO> getUserByEmail(@PathVariable String email) {
         BlogUserDTO user = blogUserService.getUserByEmail(email);
         return ResponseEntity.ok(user);
     }

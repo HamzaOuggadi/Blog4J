@@ -16,8 +16,9 @@ import java.util.Locale;
 @RequestMapping("/articles")
 @AllArgsConstructor
 public class ArticleController {
-    private ArticleService articleService;
-    private MessageSource messageSource;
+
+    private final ArticleService articleService;
+    private final MessageSource messageSource;
 
     @GetMapping
     public ResponseEntity<List<ArticleDTO>> getArticles() {
