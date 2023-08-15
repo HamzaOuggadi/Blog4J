@@ -8,7 +8,7 @@ public interface ArticleService {
     List<Article> getAllArticles();
     Article getArticleById(Long articleId) throws Exception;
     List<Article> getArticlesByWriterId(Long writerId) throws Exception;
-    void addArticle(Article article);
+    void addArticle(Article article, Long writerId) throws Exception;
     void editArticle(Article article);
     void deleteArticleById(Long articleId) throws Exception;
 }

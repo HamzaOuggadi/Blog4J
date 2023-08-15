@@ -46,8 +46,15 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void addArticle(Article article) {
-        articleRepository.save(article);
+    public void addArticle(Article article, Long writerId) throws Exception {
+        Optional<Writer> optionalWriter = writerRepository.findById(writerId);
+        if (optionalWriter.isPresent()) {
+            Writer writer = optionalWriter.get();
+            article.setWriter(writer);
+            articleRepository.save(article);
+        } else {
+            throw new Exception("Writer Not Found !");
+        }
     }
 
     @Override
