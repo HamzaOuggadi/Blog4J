@@ -21,7 +21,12 @@ public class Article {
     private String content;
     @OneToMany
     private List<Image> images;
+    @OneToMany
+    private List<Category> categories;
+    @ManyToOne
+    private Writer writer;
+    @OneToMany
+    private List<Comment> comments;
     private LocalDate publishDate;
-    private List<LocalDate> modificationDates;
     private boolean show;
 }
