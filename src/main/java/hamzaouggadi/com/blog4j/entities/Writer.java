@@ -24,7 +24,7 @@ public class Writer {
     private LocalDate registerDate;
     @OneToMany
     private List<Article> articles;
-    @OneToMany
+    @OneToMany(mappedBy = "writer")
     private List<Comment> comments;
     private boolean isBanned;
 }

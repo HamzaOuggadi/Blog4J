@@ -18,6 +18,7 @@ public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Lob
     private String content;
     @OneToMany
     private List<Image> images;
@@ -25,7 +26,7 @@ public class Article {
     private List<Category> categories;
     @ManyToOne
     private Writer writer;
-    @OneToMany
+    @OneToMany(mappedBy = "article")
     private List<Comment> comments;
     private LocalDate publishDate;
     private boolean show;
