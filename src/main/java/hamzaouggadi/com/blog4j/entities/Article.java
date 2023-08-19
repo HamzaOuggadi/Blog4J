@@ -26,7 +26,7 @@ public class Article {
     private List<Category> categories;
     @ManyToOne
     private Writer writer;
-    @OneToMany(mappedBy = "article")
+    @OneToMany
     private List<Comment> comments;
     private LocalDate publishDate;
     private boolean show;

@@ -23,10 +23,10 @@ public class Writer {
     private String password;
     private String profilePhoto;
     private LocalDate registerDate;
-    @OneToMany
-    private List<Article> articles;
     @OneToMany(mappedBy = "writer")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Article> articles;
+    @OneToMany
     private List<Comment> comments;
     private boolean isBanned;
 }
