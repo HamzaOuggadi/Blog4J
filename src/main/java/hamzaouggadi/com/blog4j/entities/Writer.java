@@ -1,5 +1,6 @@
 package hamzaouggadi.com.blog4j.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class Writer {
     @OneToMany
     private List<Article> articles;
     @OneToMany(mappedBy = "writer")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments;
     private boolean isBanned;
 }
