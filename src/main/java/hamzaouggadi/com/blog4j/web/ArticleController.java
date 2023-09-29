@@ -22,5 +22,4 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getAllArticles());
     }
 
-
 }

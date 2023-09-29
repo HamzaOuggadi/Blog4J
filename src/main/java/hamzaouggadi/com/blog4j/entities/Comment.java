@@ -1,5 +1,6 @@
 package hamzaouggadi.com.blog4j.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class Comment {
     @ManyToOne
     private Writer writer;
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Article article;
     private int likes;
     private boolean show;
